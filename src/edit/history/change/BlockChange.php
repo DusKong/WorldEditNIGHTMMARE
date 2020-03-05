@@ -30,7 +30,6 @@ class BlockChange implements Change{
 	}
 
 	public function undo($session){
-		var_dump($this->position->toVector3()->__toString()." : ".$this->previous->getId());
 		$session->setBlockUndo($this->position, $this->previous);
 	}
 
