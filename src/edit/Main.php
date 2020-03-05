@@ -70,8 +70,6 @@ class Main extends PluginBase implements Listener{
 
 	public $sessions = [];
 
-	public $tools = [];
-
 	public $patternFactory;
 	public $blockFactory;
 
@@ -275,20 +273,8 @@ class Main extends PluginBase implements Listener{
 	}
 
 	public function getTool(Item $item, Player $player) : ?Tool{
-		$name = "";
-
-		if(!$item->getNamedTag()){
-			$name = "";
-		}
-
-		$tag = $item->getNamedTagEntry("toolData");
-		if($tag != null){
-			if($tag instanceof CompoundTag and $tag->hasTag("Data") and $tag->getTag("Data") instanceof StringTag){
-				$name = $tag->getTag("Data")->getValue();
-			}
-		}
-		if(empty($this->tools[$name])) return null;
-		return $this->tools[$name];
+		if(!$item instanceof ToolItem) return null;
+		return $item->getTool();
 	}
 
 	public function getBrushTool(Item $item, Player $player) : BrushTool{
@@ -307,27 +293,9 @@ class Main extends PluginBase implements Listener{
 			return;
 		}
 
-		$name = (string) microtime();
-		echo($name);
-
-		if(!$item->getNamedTag()){
-			$tag = new CompoundTag("", []);
-		}else{
-			$tag = $item->getNamedTag();
-		}
-
-		if($tag->hasTag("toolData") and $tag->getTag("toolData") instanceof CompoundTag){
-			$tag->getTag("toolData")->setTag(new StringTag("Data", $name));
-		}else{
-			$tag->setTag(new CompoundTag("toolData", [
-				new StringTag("Data", $name)
-			]));
-		}
-
-		$item->setNamedTag($tag);
-
-		$this->tools[$name] = $tool;
-		$player->getInventory()->setItemInHand($item);
+		$toolitem = new ToolItem($item->getId(), $item->getDamage());
+		$toolitem->setTool($tool);
+		$player->getInventory()->setItemInHand($toolitem);
 	}
 
 	public function getPatternFactory() : PatternFactory{
