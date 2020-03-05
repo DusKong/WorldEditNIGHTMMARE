@@ -63,12 +63,12 @@ class TargetBlock{
 
 	public function getTargetBlock() : ?BlockWorldVector{
 		while($this->getNextBlock() != null && $this->world->getBlock($this->getCurrentBlock()->toVector3())->getId() == Block::AIR);
-		return $this->getCurrentBlock;
+		return $this->getCurrentBlock();
 	}
 
 	public function getSolidTargetBlock() : ?BlockWorldVector{
 		while($this->getNextBlock() != null && $this->world->getBlock($this->getCurrentBlock()->toVector3())->canPassThrough());
-		return $this->getCurrentBlock;
+		return $this->getCurrentBlock();
 	}
 
 	public function getNextBlock() : ?BlockWorldVector{

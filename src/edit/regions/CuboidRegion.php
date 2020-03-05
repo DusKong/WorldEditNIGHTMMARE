@@ -234,4 +234,8 @@ class CuboidRegion extends AbstractRegion implements FlatRegion{
 		return $result;
 	}
 
+	public static function makeCuboid(Region $region) {
+		return new CuboidRegion($region->getMinimumPoint(), $region->getMaximumPoint());
+	}
+
 }

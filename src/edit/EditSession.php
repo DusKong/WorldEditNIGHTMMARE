@@ -223,6 +223,8 @@ class EditSession implements Extent{
 	public function setBlock(Vector $pt, $pattern) : bool{
 		if(!$this->mask->test($pt)) return false;
 		if($pattern instanceof Pattern) $pattern = $pattern->apply($pt);
+		$block = $this->getBlock($pt);
+		if($block->getId() == $pattern->getId() && $block->getData() == $pattern->getData()) return false;
 		$this->changeMemory->add(new BlockChange($pt->toBlockVector(), $this->getBlock($pt), $pattern));
 		if(BlockType::shouldPlaceLast($pattern->getType()) || BlockType::shouldPlaceFinal($pattern->getType())){
 			$this->reorder[] = [$pt, $pattern];
@@ -386,6 +388,7 @@ class EditSession implements Extent{
 		}else{
 			$minY = $region->getMinimumPoint()->getBlockY();
 			$maxY = $region->getMaximumPoint()->getBlockY();
+			$shape = new RegionShape($region);
 			return $shape->generate($this, $pattern, true);
 		}
 	}
@@ -549,7 +552,8 @@ class EditSession implements Extent{
 				$yn = $nextYn;
 				$nextYn = ($y + 1) * $invRadiusY;
 				$nextZn = 0;
-				for($z = 0;$z <= $ceilRadiusZ;$z++){
+				$forZ = false;
+				for($z = 0;$z <= $ceilRadiusZ && !$forZ;$z++){
 					$zn = $nextZn;
 					$nextZn = ($z + 1) * $invRadiusZ;
 
@@ -558,12 +562,13 @@ class EditSession implements Extent{
 						if($z == 0){
 							if($y == 0){
 								$forX = true;
-								$forY = true;
+								//$forY = true;
 								break;
 							}
 							$forY = true;
 							break;
 						}
+						$forZ = true;
 						break;
 					}
 

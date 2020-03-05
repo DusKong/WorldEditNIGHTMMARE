@@ -165,9 +165,9 @@ class Main extends PluginBase implements Listener{
 	}
 
 	public static function getBlockTrace(Player $player, int $range, bool $useLastBlock = false) : ?WorldVector{
-		$tb = new TargetBlock($player, $range, 0.2);
+		$tb = new TargetBlock($player, $range, 3);
 		$result = ($useLastBlock ? $tb->getAnyTargetBlock() : $tb->getTargetBlock());
-		return $result->y == 255 ? null : $result;
+		return $result->y >= 255 ? null : $result;
 	}
 
 	public static function getDirection(float $rot) : Vector{
@@ -277,7 +277,7 @@ class Main extends PluginBase implements Listener{
 	public function getTool(Item $item, Player $player) : ?Tool{
 		$name = "";
 
-		if(!$item->hasNamedTag()){
+		if(!$item->getNamedTag()){
 			$name = "";
 		}
 
@@ -310,7 +310,7 @@ class Main extends PluginBase implements Listener{
 		$name = (string) microtime();
 		echo($name);
 
-		if(!$item->hasNamedTag()){
+		if(!$item->getNamedTag()){
 			$tag = new CompoundTag("", []);
 		}else{
 			$tag = $item->getNamedTag();

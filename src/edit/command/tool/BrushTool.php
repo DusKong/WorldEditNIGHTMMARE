@@ -80,10 +80,10 @@ class BrushTool implements TraceTool{
 			$player->sendMessage("No block in sight!");
 			return true;
 		}
-		if(!($this->getBrush() instanceof SmoothBrush) && !($this->getBrush() instanceof GravityBrush)){
+		/*if(!($this->getBrush() instanceof SmoothBrush) && !($this->getBrush() instanceof GravityBrush)){
 			$dir = $player->getDirectionVector();
 			$target = new Vector($player->x + (($dir->x * 2) * $this->getSize()), $player->y + (($dir->y * 2) * $this->getSize()) + $player->getEyeHeight(), $player->z + (($dir->z * 2) * $this->getSize()));
-		}
+		}*/
 
 		$editSession = Main::getInstance()->getEditSession($player);
 
