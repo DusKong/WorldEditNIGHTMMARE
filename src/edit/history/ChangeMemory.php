@@ -12,7 +12,10 @@ class ChangeMemory{
 	}
 
 	public function add(Change $change){
-		$this->changes[] = $change;
+		$stringPosition = $change->getPosition()->toVector3()->__toString();
+		if(empty($this->changes[$stringPosition])) {
+			$this->changes[$stringPosition] = $change;
+		}
 	}
 
 	public function undo($session){

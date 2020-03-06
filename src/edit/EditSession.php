@@ -224,7 +224,6 @@ class EditSession implements Extent{
 		if(!$this->mask->test($pt)) return false;
 		if($pattern instanceof Pattern) $pattern = $pattern->apply($pt);
 		$block = $this->getBlock($pt);
-		if($block->getId() == $pattern->getId() && $block->getData() == $pattern->getData()) return false;
 		$this->changeMemory->add(new BlockChange($pt->toBlockVector(), $this->getBlock($pt), $pattern));
 		if(BlockType::shouldPlaceLast($pattern->getType()) || BlockType::shouldPlaceFinal($pattern->getType())){
 			$this->reorder[] = [$pt, $pattern];

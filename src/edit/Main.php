@@ -58,6 +58,7 @@ use edit\command\UndoCommand;
 use edit\command\RedoCommand;
 use edit\command\SmoothCommand;
 use edit\command\SaveCommand;
+use edit\command\IdCommand;
 
 class Main extends PluginBase implements Listener{
 
@@ -117,6 +118,7 @@ class Main extends PluginBase implements Listener{
 		Server::getInstance()->getCommandMap()->register("pocketmine", new RedoCommand("/redo"));
 		Server::getInstance()->getCommandMap()->register("pocketmine", new SmoothCommand("/smooth"));
 		Server::getInstance()->getCommandMap()->register("pocketmine", new SaveCommand("/save"));
+		Server::getInstance()->getCommandMap()->register("pocketmine", new IdCommand("id"));
 	}
 
 	public function onDisable(){
